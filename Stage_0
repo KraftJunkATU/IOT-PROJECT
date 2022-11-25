@@ -1,0 +1,84 @@
+#include <Wire.h>
+#include "rgb_lcd.h"
+
+rgb_lcd lcd;
+
+const int colorR = 255;
+const int colorG = 0;
+const int colorB = 0;
+
+// seconds value.
+int seconds = 30;
+
+// minutes value.
+int minutes = 0;
+
+// hours value.
+int hours = 8;
+
+bool alarm=false;
+
+void setup() 
+{
+  // set up the LCD's number of columns and rows:
+  lcd.begin(16, 2);
+    
+  lcd.setRGB(colorR, colorG, colorB);
+    
+    // Print a message to the LCD.
+  lcd.print("Current Time -  ");
+
+  delay(1000);
+  //alarm time set below
+while(minutes<2)
+{
+  if(seconds < 60){
+    delay(1000);
+    seconds=seconds+1;
+  }
+  else{
+    seconds=00;
+  }
+  
+  if(seconds>59){
+    minutes=minutes+1;    
+  }
+  else{
+    minutes=minutes;
+  }
+  
+  if(minutes<60){
+    minutes=minutes;
+    seconds=seconds;
+  }
+  else{
+    minutes=0;
+    seconds=seconds+1;
+    hours=hours+1;
+  }
+
+  if(hours<24){
+    hours=hours;
+  }
+  else{
+    hours=0;
+  }
+  
+  lcd.setCursor(0, 1);
+  lcd.print(hours);
+  lcd.print(":");
+  lcd.print(minutes);
+  lcd.print(":");
+  lcd.print(seconds);
+}
+}
+void loop()
+//Below sets alarm off
+{
+  if (hours = 8 &&( minutes = 2)){
+  alarm=true;}
+
+   if(alarm=true){
+  lcd.clear();
+  lcd.print("ALARM");}
+}
